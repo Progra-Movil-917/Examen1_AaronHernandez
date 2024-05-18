@@ -18,35 +18,46 @@ class MyApp extends StatelessWidget {
 }
 
 class ListaLibrosScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Libros'),
-      ),
+        backgroundColor: Color.fromARGB(255, 218, 142, 236), 
+        centerTitle: true       
+      ),      
       body: Center(
         child: _buildListaLibros(context),
       ),
     );
   }
 
-  Widget _buildListaLibros(BuildContext context) {
-    return FutureBuilder<List<Libro>>(
-      future: _fetchLibros(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error al cargar los libros');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Text('No hay libros disponibles');
-        } else {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(snapshot.data![index].title),
-                subtitle: Text('Año: ${snapshot.data![index].year.toString()}'),
+Widget _buildListaLibros(BuildContext context) {
+  return FutureBuilder<List<Libro>>(
+    future: _fetchLibros(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return Text('Error al cargar los libros');
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return Text('No hay libros disponibles');
+      } else {
+        return ListView.builder(
+          itemCount: snapshot.data!.length,
+          itemBuilder: (context, index) {
+            return Container(
+              color: index % 2 == 0 ? Color.fromARGB(255, 141, 56, 35) : Color.fromARGB(255, 0, 0, 0),
+              child: ListTile(
+                title: Text(snapshot.data![index].title, style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))),
+                subtitle: Text('Año: ${snapshot.data![index].year.toString()}', style: TextStyle(color: const Color.fromARGB(221, 255, 255, 255))),
+                trailing: IconButton(
+                  icon: Icon(Icons.download_rounded, color: Colors.white),
+                  onPressed: () {                    
+                    _showDownloadDialog(context);
+                  },
+                ),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -55,13 +66,14 @@ class ListaLibrosScreen extends StatelessWidget {
                     ),
                   );
                 },
-              );
-            },
-          );
-        }
-      },
-    );
-  }
+              ),
+            );
+          },
+        );
+      }
+    },
+  );
+}
 
   Future<List<Libro>> _fetchLibros() async {
     try {
@@ -76,6 +88,58 @@ class ListaLibrosScreen extends StatelessWidget {
     }
   }
 }
+
+// Función para mostrar el diálogo de descarga y cambiar su estado
+void _showDownloadDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return _DownloadDialog();
+    },
+  );
+}
+
+class _DownloadDialog extends StatefulWidget {
+  @override
+  __DownloadDialogState createState() => __DownloadDialogState();
+}
+
+class __DownloadDialogState extends State<_DownloadDialog> {
+  String _message = 'Descargando el archivo...';
+
+  @override
+  void initState() {
+    super.initState();
+    _startDownload();
+  }
+
+  void _startDownload() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+      _message = 'Descarga completada';
+    });
+    await Future.delayed(Duration(seconds: 1));
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Espere un momento'),
+      content: Text(_message),
+      actions: [
+        TextButton(
+          child: Text('OK'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}
+
 
 class DetallesLibroScreen extends StatelessWidget {
   final Libro libro;
