@@ -1,16 +1,28 @@
 # examen_1
 
-A new Flutter project.
+Una simple aplicacione que muestra un listado de peliculas y sus detalles donde se veran los villanos asociados
 
-## Getting Started
+La estructura es sencilla, consta de las siguientes carpetas:
+models: contiene los modelos del JSON
+screens: contiene la pantalla principal con la dependencia go_route
 
-This project is a starting point for a Flutter application.
+Funciones
+-------------------------------------
+Muestra un listado de peliculas y con la opcion de simular una descarga asimismo tambien es poosible mostrar sus detalles
 
-A few resources to get you started if this is your first Flutter project:
+Como ejecutar la aplicacion
+-------------------------------------
+Solo presionar F5, launch.json se encuentra configurado
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Imagenes
+------------------------------------
+Principal
+---------------------
+![image](https://github.com/Progra-Movil-917/Examen1_AaronHernandez/assets/127124353/220a3c87-2637-461b-a822-4872b349dc35)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Detalles
+-------------------
+![image](https://github.com/Progra-Movil-917/Examen1_AaronHernandez/assets/127124353/9d157b60-d516-4297-ae4b-695b5b3d5954)
+
+
+
