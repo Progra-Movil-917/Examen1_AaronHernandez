@@ -89,7 +89,6 @@ Widget _buildListaLibros(BuildContext context) {
   }
 }
 
-// Función para mostrar el diálogo de descarga y cambiar su estado
 void _showDownloadDialog(BuildContext context) {
   showDialog(
     context: context,
@@ -107,6 +106,7 @@ class _DownloadDialog extends StatefulWidget {
 
 class __DownloadDialogState extends State<_DownloadDialog> {
   String _message = 'Descargando el archivo...';
+  bool _isCompleted = false;
 
   @override
   void initState() {
@@ -118,6 +118,7 @@ class __DownloadDialogState extends State<_DownloadDialog> {
     await Future.delayed(Duration(seconds: 2));
     setState(() {
       _message = 'Descarga completada';
+      _isCompleted = true;
     });
     await Future.delayed(Duration(seconds: 1));
     Navigator.of(context).pop();
@@ -127,15 +128,14 @@ class __DownloadDialogState extends State<_DownloadDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Espere un momento'),
-      content: Text(_message),
-      actions: [
-        TextButton(
-          child: Text('OK'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
+      content: Row(
+        children: [
+          if (_isCompleted)
+            Icon(Icons.check, color: Colors.green),
+          SizedBox(width: 10),
+          Text(_message),
+        ],
+      ),
     );
   }
 }
