@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "examen_1",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/screens/lista_libros_screen.dart" 
+        },
+        {
+            "name": "examen_1 (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/screens/lista_libros_screen.dart" 
+        },
+        {
+            "name": "examen_1 (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/screens/lista_libros_screen.dart" 
+        }
+    ]
+}
